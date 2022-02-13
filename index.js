@@ -37,3 +37,15 @@ app.get('/articles', (req, res) => {
 
     })
 })
+
+app.post('/articles', (req, res) => {
+    Article.find(function (err, foundArticles) {
+        if (!err) {
+            res.send(foundArticles)
+        }
+        else {
+            res.send(err)
+        }
+
+    })
+})
