@@ -77,20 +77,31 @@ app.route('/articles/:articleTitle')
             })
         }
     )
-    // .post((req, res) => {
-    //     const newArticle = new Article({
-    //         title: req.body.title,
-    //         content: req.body.content
-    //     });
-    //     newArticle.save(function (err) {
-    //         if (!err) {
-    //             res.send("Article added successfully")
-    //         }
-    //         else {
-    //             res.send(err)
-    //         }
-    //     })
-    // })
+    .put((req, res) => {
+        Article.update({ title: req.params.articleTitle },
+            { title: req.body.title, content: req.body.content },
+            { overwrite: true },
+            function (err) {
+                if (!err) {
+                    res.send("Article updated successfully")
+                }
+                else {
+                    res.send("Article not updated")
+                }
+            })
+    })
+    .patch((req, res) => {
+        Article.update({ title: req.params.articleTitle },
+            { $set: req.body },
+            function (err) {
+                if (!err) {
+                    res.send("Article updated successfully")
+                }
+                else {
+                    res.send("Article not updated")
+                }
+            })
+    })
     // .delete((req, res) => {
     //     Article.deleteOne({ title: '' }, function (err) {
     //         if (!err) { res.send("Successfully deleted article") }
