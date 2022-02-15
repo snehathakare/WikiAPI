@@ -62,3 +62,40 @@ app.route('/articles')
             }
         });
     })
+
+app.route('/articles/:articleTitle')
+    .get(
+        (req, res) => {
+            Article.findOne({ title: req.params.articleTitle }, function (err, foundArticle) {
+                if (foundArticle) {
+                    res.send(foundArticle)
+                }
+                else {
+                    res.send("No article found")
+                }
+
+            })
+        }
+    )
+    // .post((req, res) => {
+    //     const newArticle = new Article({
+    //         title: req.body.title,
+    //         content: req.body.content
+    //     });
+    //     newArticle.save(function (err) {
+    //         if (!err) {
+    //             res.send("Article added successfully")
+    //         }
+    //         else {
+    //             res.send(err)
+    //         }
+    //     })
+    // })
+    // .delete((req, res) => {
+    //     Article.deleteOne({ title: '' }, function (err) {
+    //         if (!err) { res.send("Successfully deleted article") }
+    //         else {
+    //             res.send(err)
+    //         }
+    //     });
+    // })    
