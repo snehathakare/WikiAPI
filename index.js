@@ -26,38 +26,39 @@ app.get('/', (req, res) => {
     res.send('Hello World!')
 })
 
-app.get('/articles', (req, res) => {
-    Article.find(function (err, foundArticles) {
-        if (!err) {
-            res.send(foundArticles)
-        }
-        else {
-            res.send(err)
-        }
+app.route('/articles')
+    .get(
+        (req, res) => {
+            Article.find(function (err, foundArticles) {
+                if (!err) {
+                    res.send(foundArticles)
+                }
+                else {
+                    res.send(err)
+                }
 
+            })
+        }
+    )
+    .post((req, res) => {
+        const newArticle = new Article({
+            title: req.body.title,
+            content: req.body.content
+        });
+        newArticle.save(function (err) {
+            if (!err) {
+                res.send("Article added successfully")
+            }
+            else {
+                res.send(err)
+            }
+        })
     })
-})
-
-app.post('/articles', (req, res) => {
-    const newArticle = new Article({
-        title: req.body.title,
-        content: req.body.content
-    });
-    newArticle.save(function (err) {
-        if (!err) {
-            res.send("Article added successfully")
-        }
-        else {
-            res.send(err)
-        }
+    .delete((req, res) => {
+        Article.deleteOne({ title: '' }, function (err) {
+            if (!err) { res.send("Successfully deleted article") }
+            else {
+                res.send(err)
+            }
+        });
     })
-})
-
-app.delete('/articles', (req, res) => {
-    Article.deleteOne({ title: '' }, function (err) {
-        if (!err) { res.send("Successfully deleted article") }
-        else {
-            res.send(err)
-        }
-    });
-})
