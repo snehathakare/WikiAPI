@@ -39,13 +39,25 @@ app.get('/articles', (req, res) => {
 })
 
 app.post('/articles', (req, res) => {
-    Article.find(function (err, foundArticles) {
+    const newArticle = new Article({
+        title: req.body.title,
+        content: req.body.content
+    });
+    newArticle.save(function (err) {
         if (!err) {
-            res.send(foundArticles)
+            res.send("Article added successfully")
         }
         else {
             res.send(err)
         }
-
     })
+})
+
+app.delete('/articles', (req, res) => {
+    Article.deleteOne({ title: '' }, function (err) {
+        if (!err) { res.send("Successfully deleted article") }
+        else {
+            res.send(err)
+        }
+    });
 })
