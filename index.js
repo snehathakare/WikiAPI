@@ -26,6 +26,8 @@ app.get('/', (req, res) => {
     res.send('Hello World!')
 })
 
+//routing for all articles
+
 app.route('/articles')
     .get(
         (req, res) => {
@@ -62,6 +64,8 @@ app.route('/articles')
             }
         });
     })
+
+//routing for specific articles
 
 app.route('/articles/:articleTitle')
     .get(
@@ -102,11 +106,11 @@ app.route('/articles/:articleTitle')
                 }
             })
     })
-    // .delete((req, res) => {
-    //     Article.deleteOne({ title: '' }, function (err) {
-    //         if (!err) { res.send("Successfully deleted article") }
-    //         else {
-    //             res.send(err)
-    //         }
-    //     });
-    // })    
+    .delete((req, res) => {
+        Article.deleteOne({ title: req.params.articleTitle }, function (err) {
+            if (!err) { res.send("Successfully deleted article") }
+            else {
+                res.send(err)
+            }
+        });
+    })    
